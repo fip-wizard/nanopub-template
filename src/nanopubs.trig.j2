@@ -1,0 +1,82 @@
+{%- macro basicNanopub(vars) -%}
+{%- do nanopub_uris.append(vars['nanopub.uri']) -%}
+{%- if vars['nanopub.default.before'] -%}
+{{ vars['nanopub.default.before'] }}
+{% endif -%}
+{%- if vars['nanopub.before'] -%}
+{{ vars['nanopub.before'] }}
+{% endif -%}
+@prefix : <{{ vars['nanopub.uri'] }}> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+{%- if vars['nanopub.default.prefixes'] -%}
+{{ vars['nanopub.default.prefixes'] }}
+{% endif -%}
+{%- if vars['nanopub.prefixes'] -%}
+{{ vars['nanopub.prefixes'] }}
+{% endif -%}
+
+:Head {
+  : a np:Nanopublication ;
+    np:hasAssertion :assertion ;
+    np:hasProvenance :provenance ;
+    np:hasPublicationInfo :pubinfo .
+}
+
+:assertion {
+{{ vars['nanopub.default.statements']|indent(2, True) }}
+{{ vars['nanopub.statements.start']|indent(2, True) }}
+{{ vars['nanopub.statements']|indent(2, True) }}
+{{ vars['nanopub.statements.end']|indent(2, True) }}
+}
+
+:provenance {
+{{ vars['nanopub.default.provenance']|indent(2, True) }}
+{{ vars['nanopub.provenance']|indent(2, True) }}
+}
+
+:pubinfo {
+{{ vars['nanopub.default.pubinfo']|indent(2, True) }}
+{{ vars['nanopub.pubinfo']|indent(2, True) }}
+}
+{{ vars['nanopub.after'] }}
+{{ vars['nanopub.default.after'] }}
+{%- endmacro -%}
+
+{%- macro indexNanopub(uris, vars) -%}
+{%- if vars['nanopub.index.before'] -%}
+{{ vars['nanopub.index.before'] }}
+{% endif -%}
+@prefix : <{{ vars['nanopub.index.uri'] }}> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://purl.org/nanopub/x/> .
+{% if vars['nanopub.index.prefixes'] -%}
+{{ vars['nanopub.index.prefixes'] }}
+{%- endif %}
+
+:Head {
+  : a np:Nanopublication ;
+    np:hasAssertion :assertion ;
+    np:hasProvenance :provenance ;
+    np:hasPublicationInfo :pubinfo .
+}
+
+:assertion {
+{%- if uris|length > 0 %}
+  : npx:includesElement 
+{%- for uri in uris %}
+      <{{ uri }}> {% if loop.last %}.{% else %},{% endif %}
+{%- endfor %}
+{%- endif -%}
+
+{{ vars['nanopub.index.statements']|indent(2, True) }}
+}
+
+:provenance {
+{{ vars['nanopub.index.provenance']|indent(2, True) }}
+}
+
+:pubinfo {
+{{ vars['nanopub.index.pubinfo']|indent(2, True) }}
+}
+{{ vars['nanopub.index.after'] }}
+{%- endmacro -%}

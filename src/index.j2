@@ -1,0 +1,45 @@
+{#- Global variables -#}
+{%- set dc = ctx|to_context_obj -%}
+{%- set vars_defaults = {
+  'config': {
+    'client_url': dc.config.client_url,
+  },
+  'qtn': {
+    'uuid': dc.qtn.uuid,
+    'name': dc.qtn.name,
+    'description': dc.qtn.description,
+    'tags': dc.qtn.project_tags,
+  },
+  'doc': {
+    'uuid': dc.doc.uuid,
+    'created_at': dc.doc.created_at|datetime_format("%Y-%m-%dT%H:%M:%SZ"),
+  },
+  'entity': dc.km,
+} -%}
+{%- set vars = vars_defaults.copy() -%}
+{%- set nanopub_uris = [] -%}
+{%- set nanopub_index = dc.km.a.get('nanopub.index', '').lower() == 'true' -%}
+{#- Imports -#}
+{%- import "src/nanopubs.trig.j2" as nanopubs with context -%}
+{%- import "src/traverse.j2" as traverse with context -%}
+{#- Iterate for nanopubs -#}
+{{- traverse.traverseKm(dc.km) -}}
+{#- Nanopublication Index -#}
+{%- if nanopub_index -%}
+  {%- set index_vars = {
+    'nanopub.index.before': '',
+    'nanopub.index.uri': dc.config.client_url ~ "/" ~ dc.qtn.uuid ~ "/" ~ dc.doc.uuid ~ "/index",
+    'nanopub.index.prefixes': '',
+    'nanopub.index.statements': '',
+    'nanopub.index.provenance': '',
+    'nanopub.index.pubinfo': '',
+    'nanopub.index.after': '',
+  } %}
+  {%- for key in index_vars.keys() -%}
+    {%- set value = dc.km.a.get(key, '')|jinja2(vars=vars, fail_safe=True)|trim -%}
+    {%- if value -%}
+      {%- do index_vars.__setitem__(key, value) -%}
+    {%- endif -%}
+  {%- endfor %}
+{{ nanopubs.indexNanopub(nanopub_uris, vars=index_vars) }}
+{%- endif -%}
