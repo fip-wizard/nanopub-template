@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{%- set format = "html" %}
+<head>
+  <style type="text/css">
+    body { margin: 20px; font-size: 11pt; color: #444; }
+    .notice {
+      color: black;
+      background: #cccccc; 
+      text-align: center;
+      padding: 0.5em;
+      border-radius: 6px;
+      border: 1px solid #fc0303;
+      margin-bottom: 2em;
+      font-size: 12pt;
+      font-family: sans-serif;
+    }
+    pre {
+      white-space: pre-wrap;
+      white-space: -moz-pre-wrap; 
+      white-space: -pre-wrap;
+      white-space: -o-pre-wrap;
+      word-wrap: break-word;
+    }
+    .nanopub-name {
+      padding: 0.5em;
+      text-align: center;
+      font-size: 12pt;
+      font-family: sans-serif;
+    }
+    .nanopub { margin: 0 0 30px 0; padding: 0px 10px 10px 10px; border-radius: 10px; border: solid; border-width: 1px; }
+    .nanopub-prefixes { margin-top: 10px; }
+    .nanopub-head { background: #e8e8e8; padding: 10px; margin-top: 10px; border-radius: 10px; }
+    .nanopub-assertion { background: #99ccff; padding: 10px; margin-top: 10px; border-radius: 10px; }
+    .nanopub-provenance { background: #f3a08c; padding: 10px; margin-top: 10px; border-radius: 10px; }
+    .nanopub-pubinfo { background: #ffff66; padding: 10px; margin-top: 10px; border-radius: 10px; }
+    .nanopub-index { background: #cad7e5; }
+  </style>
+</head>
+<body>
+<div class="notice">
+  This is preview of nanopublication(s). If you want to submit nanopublication, go to <strong>Documents</strong> tab, generate <strong>RDF TriG</strong> and then use <strong>Submit</strong>.
+</div>
+{% include "src/index.j2" with context %}
+</body>
+</html>

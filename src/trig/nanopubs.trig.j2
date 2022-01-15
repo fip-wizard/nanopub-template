@@ -1,19 +1,19 @@
 {%- macro basicNanopub(vars) -%}
 {%- do nanopub_uris.append(vars['nanopub.uri']) -%}
-{%- if vars['nanopub.default.before'] -%}
+{%- if vars['nanopub.default.before'] %}
 {{ vars['nanopub.default.before'] }}
 {% endif -%}
-{%- if vars['nanopub.before'] -%}
+{%- if vars['nanopub.before'] %}
 {{ vars['nanopub.before'] }}
 {% endif -%}
 @prefix : <{{ vars['nanopub.uri'] }}> .
 @prefix np: <http://www.nanopub.org/nschema#> .
-{%- if vars['nanopub.default.prefixes'] -%}
+{%- if vars['nanopub.default.prefixes'] %}
 {{ vars['nanopub.default.prefixes'] }}
 {% endif -%}
-{%- if vars['nanopub.prefixes'] -%}
+{%- if vars['nanopub.prefixes'] %}
 {{ vars['nanopub.prefixes'] }}
-{% endif -%}
+{%- endif %}
 
 :Head {
   : a np:Nanopublication ;
@@ -23,20 +23,36 @@
 }
 
 :assertion {
+{%- if vars['nanopub.default.statements'] %}
 {{ vars['nanopub.default.statements']|indent(2, True) }}
+{%- endif %}
+{%- if vars['nanopub.statements.start'] %}
 {{ vars['nanopub.statements.start']|indent(2, True) }}
+{%- endif %}
+{%- if vars['nanopub.statements'] %}
 {{ vars['nanopub.statements']|indent(2, True) }}
+{%- endif %}
+{%- if vars['nanopub.statements.end'] %}
 {{ vars['nanopub.statements.end']|indent(2, True) }}
+{%- endif %}
 }
 
 :provenance {
+{%- if vars['nanopub.default.provenance'] %}
 {{ vars['nanopub.default.provenance']|indent(2, True) }}
+{%- endif %}
+{%- if vars['nanopub.provenance'] %}
 {{ vars['nanopub.provenance']|indent(2, True) }}
+{%- endif %}
 }
 
 :pubinfo {
+{%- if vars['nanopub.default.pubinfo'] %}
 {{ vars['nanopub.default.pubinfo']|indent(2, True) }}
+{%- endif %}
+{%- if vars['nanopub.pubinfo'] %}
 {{ vars['nanopub.pubinfo']|indent(2, True) }}
+{%- endif %}
 }
 {{ vars['nanopub.after'] }}
 {{ vars['nanopub.default.after'] }}

@@ -1,8 +1,8 @@
 {
     "templateId": "nanopub-template",
     "organizationId": "dsw",
-    "version": "0.1.2",
-    "name": "Nanopublication Template (dev)",
+    "version": "1.0.0",
+    "name": "Nanopublication Template",
     "description": "Creating nanopublications for submissions",
     "license": "Apache-2.0",
     "metamodelVersion": 7,
@@ -26,7 +26,7 @@
                 {
                     "name": "jinja",
                     "options": {
-                        "template": "src/index.j2",
+                        "template": "src/trig/index.trig.j2",
                         "content-type": "application/trig",
                         "extension": "trig"
                     }
@@ -35,7 +35,7 @@
         },
         {
             "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d1",
-            "name": "RDF TriG (text)",
+            "name": "Plain Preview",
             "shortName": "trig",
             "icon": "fas fa-file",
             "color": "#f15722",
@@ -43,9 +43,26 @@
                 {
                     "name": "jinja",
                     "options": {
-                        "template": "src/index.j2",
+                        "template": "src/trig/index.trig.j2",
                         "content-type": "text/plain",
                         "extension": "trig"
+                    }
+                }
+            ]
+        },
+        {
+            "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d2",
+            "name": "HTML Preview",
+            "shortName": "html",
+            "icon": "fas fa-file",
+            "color": "#f15722",
+            "steps": [
+                {
+                    "name": "jinja",
+                    "options": {
+                        "template": "src/html/index.html.j2",
+                        "content-type": "text/html",
+                        "extension": "html"
                     }
                 }
             ]

@@ -1,0 +1,125 @@
+{%- macro basicNanopub(vars) -%}
+<div class="nanopub">
+<pre class="nanopub-prefixes">
+{%- do nanopub_uris.append(vars['nanopub.uri']) -%}
+{%- if vars['nanopub.default.before'] %}
+{{ vars['nanopub.default.before']|escape }}
+{% endif -%}
+{%- if vars['nanopub.before'] %}
+{{ vars['nanopub.before']|escape }}
+{% endif -%}
+@prefix : &lt;{{ vars['nanopub.uri'] }}&gt; .
+@prefix np: &lt;http://www.nanopub.org/nschema#&gt; .
+{%- if vars['nanopub.default.prefixes'] %}
+{{ vars['nanopub.default.prefixes']|escape }}
+{% endif -%}
+{%- if vars['nanopub.prefixes'] %}
+{{ vars['nanopub.prefixes']|escape }}
+{%- endif %}
+</pre>
+<pre class="nanopub-head">
+:Head {
+  : a np:Nanopublication ;
+    np:hasAssertion :assertion ;
+    np:hasProvenance :provenance ;
+    np:hasPublicationInfo :pubinfo .
+}
+</pre>
+<pre class="nanopub-assertion">
+:assertion {
+{%- if vars['nanopub.default.statements'] %}
+{{ vars['nanopub.default.statements']|indent(2, True)|escape }}
+{%- endif %}
+{%- if vars['nanopub.statements.start'] %}
+{{ vars['nanopub.statements.start']|indent(2, True)|escape }}
+{%- endif %}
+{%- if vars['nanopub.statements'] %}
+{{ vars['nanopub.statements']|indent(2, True)|escape }}
+{%- endif %}
+{%- if vars['nanopub.statements.end'] %}
+{{ vars['nanopub.statements.end']|indent(2, True)|escape }}
+{%- endif %}
+}
+</pre>
+<pre class="nanopub-provenance">
+:provenance {
+{%- if vars['nanopub.default.provenance'] %}
+{{ vars['nanopub.default.provenance']|indent(2, True)|escape }}
+{%- endif %}
+{%- if vars['nanopub.provenance'] %}
+{{ vars['nanopub.provenance']|indent(2, True)|escape }}
+{%- endif %}
+}
+</pre>
+<pre class="nanopub-pubinfo">
+:pubinfo {
+{%- if vars['nanopub.default.pubinfo'] %}
+{{ vars['nanopub.default.pubinfo']|indent(2, True)|escape }}
+{%- endif %}
+{%- if vars['nanopub.pubinfo'] %}
+{{ vars['nanopub.pubinfo']|indent(2, True)|escape }}
+{%- endif %}
+}
+</pre>
+<pre>
+{%- if vars['nanopub.default.after'] %}
+{{ vars['nanopub.default.after']|escape }}
+{% endif -%}
+{%- if vars['nanopub.after'] %}
+{{ vars['nanopub.after']|escape }}
+{% endif -%}
+</pre>
+</div>
+{%- endmacro -%}
+
+{%- macro indexNanopub(uris, vars) -%}
+<div class="nanopub nanopub-index">
+<div class="nanopub-name">Nanopublication Index</div>
+<pre class="nanopub-prefixes">
+{%- if vars['nanopub.index.before']|escape -%}
+{{ vars['nanopub.index.before']|escape }}
+{% endif -%}
+@prefix : &lt;{{ vars['nanopub.index.uri'] }}&gt; .
+@prefix np: &lt;http://www.nanopub.org/nschema#&gt; .
+@prefix npx: &lt;http://purl.org/nanopub/x/&gt; .
+{% if vars['nanopub.index.prefixes']|escape -%}
+{{ vars['nanopub.index.prefixes']|escape }}
+{%- endif %}
+</pre>
+<pre class="nanopub-head">
+:Head {
+  : a np:Nanopublication ;
+    np:hasAssertion :assertion ;
+    np:hasProvenance :provenance ;
+    np:hasPublicationInfo :pubinfo .
+}
+</pre>
+<pre class="nanopub-assertion">
+:assertion {
+{%- if uris|length > 0 %}
+  : npx:includesElement 
+{%- for uri in uris %}
+      &lt;{{ uri }}&gt; {% if loop.last %}.{% else %},{% endif %}
+{%- endfor %}
+{%- endif -%}
+
+{{ vars['nanopub.index.statements']|indent(2, True)|escape }}
+}
+</pre>
+<pre class="nanopub-provenance">
+:provenance {
+{{ vars['nanopub.index.provenance']|indent(2, True)|escape }}
+}
+</pre>
+<pre class="nanopub-pubinfo">
+:pubinfo {
+{{ vars['nanopub.index.pubinfo']|indent(2, True)|escape }}
+}
+</pre>
+<pre>
+{%- if vars['nanopub.index.after'] %}
+{{ vars['nanopub.index.after']|escape }}
+{% endif -%}
+</pre>
+</div>
+{%- endmacro -%}

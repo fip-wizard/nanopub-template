@@ -20,7 +20,7 @@
 {%- set nanopub_uris = [] -%}
 {%- set nanopub_index = dc.km.a.get('nanopub.index', '').lower() == 'true' -%}
 {#- Imports -#}
-{%- import "src/nanopubs.trig.j2" as nanopubs with context -%}
+{%- import "src/nanopubs.j2" as nanopubs with context -%}
 {%- import "src/traverse.j2" as traverse with context -%}
 {#- Iterate for nanopubs -#}
 {{- traverse.traverseKm(dc.km) -}}
