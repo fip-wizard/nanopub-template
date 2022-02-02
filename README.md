@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.1.0
+
+- Add validations support
+
 ### 1.0.0
 
 - Finalized first version of Nanopublication template

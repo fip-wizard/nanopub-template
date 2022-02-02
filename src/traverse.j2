@@ -75,6 +75,50 @@
   {%- endif -%}
 {%- endmacro -%}
 
+{%- macro validateOrcid(question, value) -%}
+  {%- if value|length == 19 -%}
+    {%- set parts = value.split('-') -%}
+    {%- if parts|length == 4 -%}
+      {%- for part in parts -%}
+        {%- if part|length != 4 -%}
+          {{- question.a['nanopub.validate.orcid']|error('Invalid ORCID') -}}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      {{- question.a['nanopub.validate.orcid']|error('Invalid ORCID') -}}
+    {%- endif -%}
+  {%- else -%}
+    {{- question.a['nanopub.validate.orcid']|error('Invalid ORCID') -}}
+  {%- endif -%}
+{%- endmacro -%}
+{%- macro validateIntegrationReply(question, reply) -%}
+  {%- if 'nanopub.validate.required' in question.a.keys() -%}
+    {%- if reply.is_plain -%}
+      {{- question.a['nanopub.validate.integration']|error('Invalid value') -}}
+    {%- endif -%}
+  {%- endif -%}
+{%- endmacro -%}
+{%- macro validateQuestion(question, path) -%}
+  {%- set reply = question.replies.get(path) -%}
+  {%- if 'nanopub.validate.required' in question.a.keys() -%}
+    {%- if reply is none -%}
+      {{- question.a['nanopub.validate.required']|error('Missing reply') -}}
+    {%- endif -%}
+  {%- endif -%}
+  {%- if 'nanopub.validate.orcid' in question.a.keys() -%}
+    {%- if reply is none -%}
+      {{- question.a['nanopub.validate.orcid']|error('Invalid ORCID (empty)') -}}
+    {%- endif -%}
+    {{- validateOrcid(question, reply.value) -}}
+  {%- endif -%}
+  {%- if 'nanopub.validate.integration' in question.a.keys() -%}
+    {%- if reply is none -%}
+      {{- question.a['nanopub.validate.integration']|error('Invalid value (empty)') -}}
+    {%- endif -%}
+    {{- validateIntegrationReply(question, reply) -}}
+  {%- endif -%}
+{%- endmacro -%}
+
 {#- KM -#}
 {%- macro traverseKm(km) -%}
   {%- do vars.__setitem__('entity', km) -%}
@@ -151,6 +195,8 @@
 {%- macro traverseOutQuestion(question, path_prefix, reply_vars) -%}
   {%- set path = path_prefix ~ '.' ~ question.uuid -%}
   {%- do vars.__setitem__('entity', question) -%}
+  {#- validate -#}
+  {{- validateQuestion(question, path) -}}
   {#- variables -#}
   {{- setVarsFrom(question, reply_vars) -}}
   {#- split -#}
@@ -389,6 +435,8 @@
 {%- macro traverseInQuestion(question, path_prefix, reply_vars, nanopub_vars) -%}
   {%- do vars.__setitem__('entity', question) -%}
   {%- set path = path_prefix ~ '.' ~ question.uuid -%}
+  {#- validate -#}
+  {{- validateQuestion(question, path) -}}
   {#- variables -#}
   {{- setVarsFrom(question, reply_vars) -}}
   {#- split -#}
