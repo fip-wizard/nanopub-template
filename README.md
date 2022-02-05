@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.2.0
+
+- Update to metamodel v8
+
 ### 1.1.0
 
 - Add validations support
