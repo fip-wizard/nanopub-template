@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.4.1
+
+- Fix HTML preview encoding
+
 ### 1.4.0
 
 - Update to metamodel v10
