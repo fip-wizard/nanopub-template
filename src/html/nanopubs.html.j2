@@ -59,6 +59,10 @@
 {%- if vars['nanopub.pubinfo'] %}
 {{ vars['nanopub.pubinfo']|indent(2, True)|escape }}
 {%- endif %}
+{%- if not nanopub_index and submissions.nanopubs|length > 0 %}
+
+  : &lt;http://purl.org/nanopub/x/supersedes&gt; &lt;{{ submissions.nanopubs[0].uri }}&gt; ;
+{%- endif %}
 }
 </pre>
 <pre>
@@ -114,6 +118,10 @@
 <pre class="nanopub-pubinfo">
 :pubinfo {
 {{ vars['nanopub.index.pubinfo']|indent(2, True)|escape }}
+{%- if submissions.nanopubs|length > 0 %}
+
+  : &lt;http://purl.org/nanopub/x/supersedes&gt; &lt;{{ submissions.nanopubs[0].uri }}&gt; ;
+{%- endif %}
 }
 </pre>
 <pre>

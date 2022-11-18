@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.5.0
+
+- Add supersedes for previous submitted nanopub (http://purl.org/np/...)
+
 ### 1.4.1
 
 - Fix HTML preview encoding
