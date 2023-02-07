@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.6.0
+
+- Update to metamodel v11
+
 ### 1.5.0
 
 - Add supersedes for previous submitted nanopub (http://purl.org/np/...)
