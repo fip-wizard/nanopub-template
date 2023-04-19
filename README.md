@@ -4,6 +4,11 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.7.0
+
+- Use `npx` prefix in nanopubs
+- Allow to access submission from Jinja2 in KM annotations
+
 ### 1.6.0
 
 - Update to metamodel v11

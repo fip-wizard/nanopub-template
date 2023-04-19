@@ -1,3 +1,4 @@
+{%- import "src/submissions.j2" as submissions with context -%}
 {#- Global variables -#}
 {%- set dc = ctx|to_context_obj -%}
 {%- set vars_defaults = {
@@ -15,12 +16,14 @@
     'created_at': dc.doc.created_at|datetime_format("%Y-%m-%dT%H:%M:%SZ"),
   },
   'entity': dc.km,
+  'submissions': {
+    'nanopubs': submissions.nanopubs,
+  },
 } -%}
 {%- set vars = vars_defaults.copy() -%}
 {%- set nanopub_uris = [] -%}
 {%- set nanopub_index = dc.km.a.get('nanopub.index', '').lower() == 'true' -%}
 {#- Imports -#}
-{%- import "src/submissions.j2" as submissions with context -%}
 {%- import "src/nanopubs.j2" as nanopubs with context -%}
 {%- import "src/traverse.j2" as traverse with context -%}
 {#- Iterate for nanopubs -#}

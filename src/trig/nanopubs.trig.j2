@@ -8,6 +8,7 @@
 {% endif -%}
 @prefix : <{{ vars['nanopub.uri'] }}> .
 @prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://purl.org/nanopub/x/> .
 {%- if vars['nanopub.default.prefixes'] %}
 {{ vars['nanopub.default.prefixes'] }}
 {% endif -%}
@@ -55,7 +56,7 @@
 {%- endif %}
 {%- if not nanopub_index and submissions.nanopubs|length > 0 %}
 
-  : <http://purl.org/nanopub/x/supersedes> <{{ submissions.nanopubs[0].uri }}> ;
+  : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
 {%- endif %}
 }
 {{ vars['nanopub.after'] }}
@@ -99,7 +100,7 @@
 {{ vars['nanopub.index.pubinfo']|indent(2, True) }}
 {%- if submissions.nanopubs|length > 0 %}
 
-  : <http://purl.org/nanopub/x/supersedes> <{{ submissions.nanopubs[0].uri }}> ;
+  : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
 {%- endif %}
 }
 {{ vars['nanopub.index.after'] }}
