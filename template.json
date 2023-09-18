@@ -1,7 +1,7 @@
 {
     "templateId": "nanopub-template",
     "organizationId": "dsw",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "name": "Nanopublication Template",
     "description": "Creating nanopublications for submissions",
     "license": "Apache-2.0",

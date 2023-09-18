@@ -599,5 +599,5 @@
   {%- do vars.__setitem__('entity', choice) -%}
   {#- variables -#}
   {{- setVarsFrom(choice, reply_vars) -}}
-  {{- updateStatements(chapter, nanopub_vars, vars) -}}
+  {{- updateStatements(choice, nanopub_vars, vars) -}}
 {%- endmacro -%}

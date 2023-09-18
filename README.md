@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.7.1
+
+- Fix annotations traversal for Choice entities
+
 ### 1.7.0
 
 - Use `npx` prefix in nanopubs
