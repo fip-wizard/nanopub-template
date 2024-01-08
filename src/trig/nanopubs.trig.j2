@@ -105,3 +105,39 @@
 }
 {{ vars['nanopub.index.after'] }}
 {%- endmacro -%}
+
+{%- macro extraNanopub(vars) -%}
+{%- if vars['nanopub.extra.before'] -%}
+{{ vars['nanopub.extraextra.before'] }}
+{% endif -%}
+@prefix : <{{ vars['nanopub.extra.uri'] }}> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://purl.org/nanopub/x/> .
+{% if vars['nanopub.extra.prefixes'] -%}
+{{ vars['nanopub.extra.prefixes'] }}
+{%- endif %}
+
+:Head {
+  : a np:Nanopublication ;
+    np:hasAssertion :assertion ;
+    np:hasProvenance :provenance ;
+    np:hasPublicationInfo :pubinfo .
+}
+
+:assertion {
+{{ vars['nanopub.extra.statements']|indent(2, True) }}
+}
+
+:provenance {
+{{ vars['nanopub.extra.provenance']|indent(2, True) }}
+}
+
+:pubinfo {
+{{ vars['nanopub.extra.pubinfo']|indent(2, True) }}
+{%- if submissions.nanopubs|length > 0 %}
+
+  : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
+{%- endif %}
+}
+{{ vars['nanopub.extra.after'] }}
+{%- endmacro -%}

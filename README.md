@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.9.0
+
+- Support extra nanopublication
+
 ### 1.8.0
 
 - Update to metamodel v12

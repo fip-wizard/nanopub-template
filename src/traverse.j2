@@ -21,51 +21,51 @@
 
 {%- macro setVarsFrom(entity, xvars) -%}
   {%- for key in entity.a.keys() if key.startswith('nanopub.var.set.') and key|length > 16 -%}
-    {%- do xvars.__setitem__(key[16:], entity.a[key]) -%}
+    {%- do xvars.update({key[16:]: entity.a[key]}) -%}
   {%- endfor -%}
   {%- for key in entity.a.keys() if key.startswith('nanopub.var.j2.') and key|length > 15 -%}
-    {%- do xvars.__setitem__(key[15:], entity.a[key]|jinja2(vars=vars)) -%}
+    {%- do xvars.update({key[15:]: entity.a[key]|jinja2(vars=vars)}) -%}
   {%- endfor -%}
 {%- endmacro -%}
 
 {%- macro initNanopubVars(entity, nanopub_vars) -%}
   {%- for key in nanopubVars -%}
-    {%- do nanopub_vars.__setitem__(key, entity.a[key]) -%}
+    {%- do nanopub_vars.update({key: entity.a[key]}) -%}
   {%- endfor -%}
-  {%- do nanopub_vars.__setitem__('nanopub.statements', []) -%}
-  {%- do nanopub_vars.__setitem__('nanopub.uri', entity.a.get('nanopub.uri', '')|trim) -%}
+  {%- do nanopub_vars.update({'nanopub.statements': []}) -%}
+  {%- do nanopub_vars.update({'nanopub.uri': entity.a.get('nanopub.uri', '')|trim}) -%}
 {%- endmacro -%}
 
 {%- macro initItemNanopubVars(entity, nanopub_vars) -%}
   {%- for key in nanopubVars -%}
-    {%- do nanopub_vars.__setitem__(key, entity.a[key]) -%}
+    {%- do nanopub_vars.update({key: entity.a[key]}) -%}
   {%- endfor -%}
-  {%- do nanopub_vars.__setitem__('nanopub.statements', []) -%}
-  {%- do nanopub_vars.__setitem__('nanopub.uri', entity.a.get('nanopub.item.uri', '')|trim) -%}
+  {%- do nanopub_vars.update({'nanopub.statements': []}) -%}
+  {%- do nanopub_vars.update({'nanopub.uri': entity.a.get('nanopub.item.uri', '')|trim}) -%}
 {%- endmacro -%}
 
 {%- macro renderNanopubVars(entity, nanopub_vars, xvars) -%}
   {%- for key in nanopubVars -%}
     {%- if key in entity.a.keys() -%}
       {%- set value = entity.a[key]|jinja2(vars=xvars) -%}
-      {%- do nanopub_vars.__setitem__(key, value) -%}
+      {%- do nanopub_vars.update({key: value}) -%}
     {%- else -%}
-      {%- do nanopub_vars.__setitem__(key, '') -%}
+      {%- do nanopub_vars.update({key: ''}) -%}
     {%- endif -%}
   {%- endfor -%}
   {%- for key in kmDefaults -%}
     {%- set value = dc.km.a.get(key, '')|jinja2(vars=vars, fail_safe=True)|trim -%}
     {%- if value -%}
-      {%- do nanopub_vars.__setitem__(key, value) -%}
+      {%- do nanopub_vars.update({key: value}) -%}
     {%- endif -%}
   {%- endfor %}
   {%- set statements = nanopub_vars['nanopub.statements']|join('\n') -%}
-  {%- do nanopub_vars.__setitem__('nanopub.statements', statements) -%}
+  {%- do nanopub_vars.update({'nanopub.statements': statements}) -%}
   {%- set uri = nanopub_vars['nanopub.uri']|jinja2(vars=xvars) -%}
   {%- if uri == '' -%}
     {%- set uri = nanopub_vars['nanopub.default.uri']|jinja2(vars=xvars) -%}
   {%- endif -%}
-  {%- do nanopub_vars.__setitem__('nanopub.uri', uri) -%}
+  {%- do nanopub_vars.update({'nanopub.uri': uri}) -%}
 {%- endmacro -%}
 
 {%- macro updateStatements(entity, nanopub_vars, xvars) -%}
@@ -121,14 +121,14 @@
 
 {#- KM -#}
 {%- macro traverseKm(km) -%}
-  {%- do vars.__setitem__('entity', km) -%}
+  {%- do vars.update({'entity': km}) -%}
   {%- set creates_nanopub = 'nanopub.uri' in km.a.keys() -%}
   {#- variables -#}
   {{- setVarsFrom(km, vars) -}}
   {#- nanopub defaults -#}
   {%- for key in kmDefaults -%}
     {%- set value = km.a.get(key, '')|jinja2(vars=vars, fail_safe=True) -%}
-    {%- do nanopub_defaults.__setitem__(key, value) -%}
+    {%- do nanopub_defaults.update({key: value}) -%}
   {%- endfor -%}
   {#- check nanopub -#}
   {%- if creates_nanopub -%}
@@ -138,7 +138,7 @@
     {%- for chapter in km.chapters -%}
       {{- traverseInChapter(chapter, nanopub_vars) -}}
     {%- endfor -%}
-    {%- do vars.__setitem__('entity', km) -%}
+    {%- do vars.update({'entity': km}) -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(km, nanopub_vars, vars) -}}
 {{ nanopubs.basicNanopub(nanopub_vars) }}
@@ -147,14 +147,14 @@
     {%- for chapter in km.chapters -%}
       {{- traverseOutChapter(chapter) -}}
     {%- endfor -%}
-    {%- do vars.__setitem__('entity', km) -%}
+    {%- do vars.update({'entity': km}) -%}
   {%- endif -%}
 {%- endmacro -%}
 
 {#- CHAPTER -#}
 {%- macro traverseOutChapter(chapter) -%}
   {%- set path = chapter.uuid -%}
-  {%- do vars.__setitem__('entity', chapter) -%}
+  {%- do vars.update({'entity': chapter}) -%}
   {%- set creates_nanopub = 'nanopub.uri' in chapter.a.keys() -%}
   {#- variables -#}
   {{- setVarsFrom(chapter, vars) -}}
@@ -166,7 +166,7 @@
     {%- for question in chapter.questions -%}
       {{- traverseInQuestion(question, path, vars, nanopub_vars) -}}
     {%- endfor -%}
-    {%- do vars.__setitem__('entity', chapter) -%}
+    {%- do vars.update({'entity': chapter}) -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(chapter, nanopub_vars, vars) -}}
 {{ nanopubs.basicNanopub(nanopub_vars) }}
@@ -175,13 +175,13 @@
     {%- for question in chapter.questions -%}
       {{- traverseOutQuestion(question, path, vars) -}}
     {%- endfor -%}
-    {%- do vars.__setitem__('entity', chapter) -%}
+    {%- do vars.update({'entity': chapter}) -%}
   {%- endif -%}
 {%- endmacro -%}
 
 {%- macro traverseInChapter(chapter, nanopub_vars) -%}
   {%- set path = chapter.uuid -%}
-  {%- do vars.__setitem__('entity', chapter) -%}
+  {%- do vars.update({'entity': chapter}) -%}
   {#- variables -#}
   {{- setVarsFrom(chapter, vars) -}}
   {#- traverse questions (in/out) -#}
@@ -194,7 +194,7 @@
 {#- QUESTIONS -#}
 {%- macro traverseOutQuestion(question, path_prefix, reply_vars) -%}
   {%- set path = path_prefix ~ '.' ~ question.uuid -%}
-  {%- do vars.__setitem__('entity', question) -%}
+  {%- do vars.update({'entity': question}) -%}
   {#- validate -#}
   {{- validateQuestion(question, path) -}}
   {#- variables -#}
@@ -219,7 +219,7 @@
   {%- set reply_varname = question.a.get('nanopub.var.reply', '') -%}
   {%- if reply_varname != '' and path in question.replies.keys() -%}
     {%- set reply = question.replies.get(path) -%}
-    {%- do reply_vars.__setitem__(reply_varname, reply.value) -%}
+    {%- do reply_vars.update({reply_varname: reply.value}) -%}
   {%- endif -%}
   {#- check nanopub -#}
   {%- if creates_nanopub -%}
@@ -237,11 +237,11 @@
   {%- set reply_varname = question.a.get('nanopub.var.reply', '') -%}
   {%- if reply_varname != '' and path in question.replies.keys() -%}
     {%- set reply = question.replies.get(path) -%}
-    {%- do reply_vars.__setitem__(reply_varname, {
+    {%- do reply_vars.update({reply_varname: {
       'value': reply.value,
       'id': reply.id,
       'url': reply.url,
-    }) -%}
+    }}) -%}
   {%- endif -%}
   {#- check nanopub -#}
   {%- if creates_nanopub -%}
@@ -259,7 +259,7 @@
   {%- set reply_varname = question.a.get('nanopub.var.reply', '') -%}
   {%- set reply = question.replies.get(path) -%}
   {%- if reply_varname != '' and reply -%}
-    {%- do reply_vars.__setitem__(reply_varname, []) -%}
+    {%- do reply_vars.update({reply_varname: []}) -%}
     {%- for choice in reply.choices -%}
       {%- do reply_vars[reply_varname].append({
         'id': choice.uuid,
@@ -276,7 +276,7 @@
       {%- for choice in reply.choices -%}
         {{- traverseInChoice(choice, reply_vars, nanopub_vars) -}}
       {%- endfor -%}
-      {%- do vars.__setitem__('entity', question) -%}
+      {%- do vars.update({'entity': question}) -%}
     {%- endif -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(question, nanopub_vars, vars) -}}
@@ -287,7 +287,7 @@
       {%- for choice in reply.choices -%}
         {{- traverseOutChoice(choice, reply_vars) -}}
       {%- endfor -%}
-      {%- do vars.__setitem__('entity', question) -%}
+      {%- do vars.update({'entity': question}) -%}
     {%- endif -%}
   {%- endif -%}
 {%- endmacro -%}
@@ -298,10 +298,10 @@
   {#- set reply var -#}
   {%- set reply_varname = question.a.get('nanopub.var.reply', '') -%}
   {%- if reply_varname != '' and reply -%}
-    {%- do reply_vars.__setitem__(reply_varname, {
+    {%- do reply_vars.update({reply_varname: {
       'id': reply.answer.uuid,
       'value': reply.answer.label,
-    }) -%}
+    }}) -%}
   {%- endif -%}
   {#- check nanopub -#}
   {%- if creates_nanopub -%}
@@ -310,7 +310,7 @@
     {#- traverse answer (in) -#}
     {%- if reply -%}
       {{- traverseInAnswer(reply.answer, path, reply_vars, nanopub_vars) -}}
-      {%- do vars.__setitem__('entity', question) -%}
+      {%- do vars.update({'entity': question}) -%}
     {%- endif -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(question, nanopub_vars, vars) -}}
@@ -319,7 +319,7 @@
     {#- traverse answer (out) -#}
     {%- if reply -%}
       {{- traverseOutAnswer(reply.answer, path, reply_vars) -}}
-      {%- do vars.__setitem__('entity', question) -%}
+      {%- do vars.update({'entity': question}) -%}
     {%- endif -%}
   {%- endif -%}
 {%- endmacro -%}
@@ -334,9 +334,9 @@
   {%- set nanopub_vars = nanopub_defaults.copy() -%}
   {%- if reply_varname != '' and reply -%}
     {%- set follow_reply_vars = {} -%}
-    {%- do reply_vars.__setitem__(reply_varname, follow_reply_vars) -%}
+    {%- do reply_vars.update({reply_varname: follow_reply_vars}) -%}
     {%- for item_id in reply.items -%}
-      {%- do follow_reply_vars.__setitem__(item_id, {}) -%}
+      {%- do follow_reply_vars.update({item_id: {}}) -%}
     {%- endfor -%}
     {#- traverse (nested vars) -#}
     {%- for item_id in reply.items -%}
@@ -345,7 +345,7 @@
         {{- traverseInQuestion(followup, item_path, follow_reply_vars[item_id], nanopub_vars) -}}
       {%- endfor -%}
     {%- endfor -%}
-    {%- do vars.__setitem__('entity', question) -%}
+    {%- do vars.update({'entity': question}) -%}
   {%- elif reply -%}
     {#- traverse (normal) -#}
     {%- for item_id in reply.items -%}
