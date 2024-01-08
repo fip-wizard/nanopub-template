@@ -29,10 +29,11 @@
 {#- Iterate for nanopubs -#}
 {{- traverse.traverseKm(dc.km) -}}
 {#- Nanopublication Index -#}
+{%- set index_uri = dc.config.client_url ~ "/" ~ dc.qtn.uuid ~ "/" ~ dc.doc.uuid ~ "/index" %}
 {%- if nanopub_index -%}
   {%- set index_vars = {
     'nanopub.index.before': '',
-    'nanopub.index.uri': dc.config.client_url ~ "/" ~ dc.qtn.uuid ~ "/" ~ dc.doc.uuid ~ "/index",
+    'nanopub.index.uri': index_uri,
     'nanopub.index.prefixes': '',
     'nanopub.index.statements': '',
     'nanopub.index.provenance': '',
@@ -42,8 +43,29 @@
   {%- for key in index_vars.keys() -%}
     {%- set value = dc.km.a.get(key, '')|jinja2(vars=vars, fail_safe=True)|trim -%}
     {%- if value -%}
-      {%- do index_vars.__setitem__(key, value) -%}
+      {%- do index_vars.update({key: value}) -%}
     {%- endif -%}
   {%- endfor %}
 {{ nanopubs.indexNanopub(nanopub_uris, vars=index_vars) }}
+{%- endif -%}
+{#- Nanopublication Extra -#}
+{%- set nanopub_extra = dc.km.a.get('nanopub.index', '').lower() == 'true' -%}
+{%- set extra_uri = dc.config.client_url ~ "/" ~ dc.qtn.uuid ~ "/" ~ dc.doc.uuid %}
+{%- if nanopub_extra -%}
+  {%- set extra_vars = {
+    'nanopub.extra.before': '',
+    'nanopub.extra.uri': extra_uri,
+    'nanopub.extra.prefixes': '',
+    'nanopub.extra.statements': '',
+    'nanopub.extra.provenance': '',
+    'nanopub.extra.pubinfo': '',
+    'nanopub.extra.after': '',
+  } %}
+  {%- for key in extra_vars.keys() -%}
+    {%- set value = dc.km.a.get(key, '')|jinja2(vars=vars, fail_safe=True)|trim -%}
+    {%- if value -%}
+      {%- do extra_vars.update({key: value}) -%}
+    {%- endif -%}
+  {%- endfor %}
+{{ nanopubs.extraNanopub(vars=extra_vars) }}
 {%- endif -%}

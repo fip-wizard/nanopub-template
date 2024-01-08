@@ -16,3 +16,11 @@
 {{ nanopubsTrig.indexNanopub(uris, vars) }}
 {%- endif -%}
 {%- endmacro -%}
+
+{%- macro extraNanopub(vars) -%}
+{%- if format == "html" -%}
+{{ nanopubsHtml.extraNanopub(vars) }}
+{%- else -%}
+{{ nanopubsTrig.extraNanopub(vars) }}
+{%- endif -%}
+{%- endmacro -%}

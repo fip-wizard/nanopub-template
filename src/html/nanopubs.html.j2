@@ -132,3 +132,53 @@
 </pre>
 </div>
 {%- endmacro -%}
+
+{%- macro extraNanopub(vars) -%}
+<div class="nanopub nanopub-extra">
+<div class="nanopub-name">Nanopublication Extra</div>
+<pre class="nanopub-prefixes">
+{%- if vars['nanopub.extra.before']|escape -%}
+{{ vars['nanopub.extra.before']|escape }}
+{% endif -%}
+@prefix : &lt;{{ vars['nanopub.extra.uri'] }}&gt; .
+@prefix np: &lt;http://www.nanopub.org/nschema#&gt; .
+@prefix npx: &lt;http://purl.org/nanopub/x/&gt; .
+{% if vars['nanopub.extra.prefixes']|escape -%}
+{{ vars['nanopub.extra.prefixes']|escape }}
+{%- endif %}
+</pre>
+<pre class="nanopub-head">
+:Head {
+  : a np:Nanopublication ;
+    np:hasAssertion :assertion ;
+    np:hasProvenance :provenance ;
+    np:hasPublicationInfo :pubinfo .
+}
+</pre>
+<pre class="nanopub-assertion">
+:assertion {
+{{ vars['nanopub.extra.statements']|indent(2, True)|escape }}
+}
+</pre>
+<pre class="nanopub-provenance">
+:provenance {
+{{ vars['nanopub.extra.provenance']|indent(2, True)|escape }}
+}
+</pre>
+<pre class="nanopub-pubinfo">
+:pubinfo {
+{{ vars['nanopub.extra.pubinfo']|indent(2, True)|escape }}
+{%- if submissions.nanopubs|length > 0 %}
+
+  : npx:supersedes &lt;{{ submissions.nanopubs[0].uri }}&gt; ;
+{%- endif %}
+}
+</pre>
+<pre>
+{%- if vars['nanopub.extra.after'] %}
+{{ vars['nanopub.extra.after']|escape }}
+{% endif -%}
+</pre>
+</div>
+{%- endmacro -%}
+
