@@ -1,74 +1,76 @@
 {
-    "templateId": "nanopub-template",
-    "organizationId": "dsw",
-    "version": "1.7.1",
-    "name": "Nanopublication Template",
-    "description": "Creating nanopublications for submissions",
-    "license": "Apache-2.0",
-    "metamodelVersion": 11,
-    "allowedPackages": [
-        {
-            "orgId": null,
-            "kmId": null,
-            "minVersion": null,
-            "maxVersion": null
-        }
-    ],
-    "formats": [
-        {
-            "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d0",
-            "name": "RDF TriG",
-            "icon": "fas fa-file",
-            "steps": [
-                {
-                    "name": "jinja",
-                    "options": {
-                        "template": "src/trig/index.trig.j2",
-                        "content-type": "application/trig",
-                        "extension": "trig",
-                        "extras": "submissions"
-                    }
-                }
-            ]
-        },
-        {
-            "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d1",
-            "name": "Plain Preview",
-            "icon": "fas fa-file",
-            "steps": [
-                {
-                    "name": "jinja",
-                    "options": {
-                        "template": "src/trig/index.trig.j2",
-                        "content-type": "text/plain",
-                        "extension": "trig",
-                        "extras": "submissions"
-                    }
-                }
-            ]
-        },
-        {
-            "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d2",
-            "name": "HTML Preview",
-            "icon": "fas fa-file",
-            "steps": [
-                {
-                    "name": "jinja",
-                    "options": {
-                        "template": "src/html/index.html.j2",
-                        "content-type": "text/html",
-                        "extension": "html",
-                        "extras": "submissions"
-                    }
-                }
-            ]
-        }
-    ],
-    "_tdk": {
-        "version": "3.20.0",
-        "readmeFile": "README.md",
-        "files": [
-            "src/**"
-        ]
+  "templateId": "nanopub-template",
+  "organizationId": "dsw",
+  "version": "1.8.0",
+  "name": "Nanopublication Template",
+  "description": "Creating nanopublications for submissions",
+  "license": "Apache-2.0",
+  "metamodelVersion": 12,
+  "allowedPackages": [
+    {
+      "orgId": null,
+      "kmId": null,
+      "minVersion": null,
+      "maxVersion": null
     }
+  ],
+  "formats": [
+    {
+      "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d0",
+      "name": "RDF TriG",
+      "icon": "fas fa-file",
+      "steps": [
+        {
+          "name": "jinja",
+          "options": {
+            "content-type": "application/trig",
+            "extension": "trig",
+            "extras": "submissions",
+            "template": "src/trig/index.trig.j2"
+          }
+        }
+      ]
+    },
+    {
+      "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d1",
+      "name": "Plain Preview",
+      "icon": "fas fa-file",
+      "steps": [
+        {
+          "name": "jinja",
+          "options": {
+            "content-type": "text/plain",
+            "extension": "trig",
+            "extras": "submissions",
+            "template": "src/trig/index.trig.j2"
+          }
+        }
+      ]
+    },
+    {
+      "uuid": "ac187978-c05e-4100-876d-9e59cc0ff0d2",
+      "name": "HTML Preview",
+      "icon": "fas fa-file",
+      "steps": [
+        {
+          "name": "jinja",
+          "options": {
+            "content-type": "text/html",
+            "extension": "html",
+            "extras": "submissions",
+            "template": "src/html/index.html.j2"
+          }
+        }
+      ]
+    }
+  ],
+  "_tdk": {
+    "version": "4.2.0",
+    "readmeFile": "README.md",
+    "files": [
+      "*",
+      "!.git/",
+      "!.env"
+    ]
+  }
 }

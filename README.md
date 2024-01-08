@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.8.0
+
+- Update to metamodel v12
+
 ### 1.7.1
 
 - Fix annotations traversal for Choice entities
