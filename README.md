@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.9.1
+
+- Support W3ID.org identifiers for supersedes triple
+
 ### 1.9.0
 
 - Support extra nanopublication

@@ -1,7 +1,7 @@
 {%- set xnanopubs = [] -%}
 {%- if ctx.extras and ctx.extras.submissions -%}
     {%- for submission in ctx.extras.submissions -%}
-        {%- if submission.location and submission.location.startswith('http://purl.org/np/') -%}
+        {%- if submission.location and (submission.location.startswith('http://purl.org/np/') or submission.location.startswith('https://w3id.org/np/')) -%}
             {%- do xnanopubs.append({'uri': submission.location, 'timestamp': submission.created_at}) -%}
         {%- endif -%}
     {%- endfor -%}
