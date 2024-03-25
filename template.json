@@ -1,11 +1,11 @@
 {
   "templateId": "nanopub-template",
   "organizationId": "dsw",
-  "version": "1.9.1",
+  "version": "1.10.0",
   "name": "Nanopublication Template",
   "description": "Creating nanopublications for submissions",
   "license": "Apache-2.0",
-  "metamodelVersion": 12,
+  "metamodelVersion": 13,
   "allowedPackages": [
     {
       "orgId": null,

@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.10.0
+
+- Update to metamodel v13
+
 ### 1.9.1
 
 - Support W3ID.org identifiers for supersedes triple
