@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.10.1
+
+- Fix traversing (reset replies if annotated but not answered)
+
 ### 1.10.0
 
 - Update to metamodel v13
