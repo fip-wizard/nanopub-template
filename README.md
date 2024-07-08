@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.10.2
+
+- Fix traversing (list question without nanopub)
+
 ### 1.10.1
 
 - Fix traversing (reset replies if annotated but not answered)

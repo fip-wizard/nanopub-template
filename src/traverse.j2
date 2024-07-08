@@ -443,9 +443,11 @@
       {%- endfor -%}
       {%- do vars.__setitem__('entity', question) -%}
     {%- elif reply -%}
-      {%- set item_path = path ~ '.' ~ item_id -%}
-      {%- for followup in question.followups -%}
-        {{- traverseOutQuestion(followup, item_path, follow_reply_vars[item_id]) -}}
+      {%- for item_id in reply.items -%}
+        {%- set item_path = path ~ '.' ~ item_id -%}
+        {%- for followup in question.followups -%}
+          {{- traverseOutQuestion(followup, item_path, follow_reply_vars[item_id]) -}}
+        {%- endfor -%}
       {%- endfor -%}
       {%- do vars.__setitem__('entity', question) -%}
     {%- endif -%}
