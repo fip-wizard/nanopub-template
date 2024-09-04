@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.11.0
+
+- Update to metamodel v14
+
 ### 1.10.2
 
 - Fix traversing (list question without nanopub)
