@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.13.1
+
+- Fix use of Jinja-in-Jinja
+
 ### 1.13.0
 
 - Update to metamodel v16

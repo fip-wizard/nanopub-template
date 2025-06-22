@@ -41,7 +41,7 @@
     'nanopub.index.after': '',
   } %}
   {%- for key in index_vars.keys() -%}
-    {%- set value = dc.km.a.get(key, '')|jinja2(vars=vars, fail_safe=True)|trim -%}
+    {%- set value = dc.km.a.get(key, '')|jinja2(variables=vars, fail_safe=True)|trim -%}
     {%- if value -%}
       {%- do index_vars.update({key: value}) -%}
     {%- endif -%}
@@ -62,7 +62,7 @@
     'nanopub.extra.after': '',
   } %}
   {%- for key in extra_vars.keys() -%}
-    {%- set value = dc.km.a.get(key, '')|jinja2(vars=vars, fail_safe=True)|trim -%}
+    {%- set value = dc.km.a.get(key, '')|jinja2(variables=vars, fail_safe=True)|trim -%}
     {%- if value -%}
       {%- do extra_vars.update({key: value}) -%}
     {%- endif -%}

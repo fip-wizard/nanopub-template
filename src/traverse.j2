@@ -24,7 +24,7 @@
     {%- do xvars.update({key[16:]: entity.a[key]}) -%}
   {%- endfor -%}
   {%- for key in entity.a.keys() if key.startswith('nanopub.var.j2.') and key|length > 15 -%}
-    {%- do xvars.update({key[15:]: entity.a[key]|jinja2(vars=vars)}) -%}
+    {%- do xvars.update({key[15:]: entity.a[key]|jinja2(variables=vars)}) -%}
   {%- endfor -%}
 {%- endmacro -%}
 
@@ -47,30 +47,30 @@
 {%- macro renderNanopubVars(entity, nanopub_vars, xvars) -%}
   {%- for key in nanopubVars -%}
     {%- if key in entity.a.keys() -%}
-      {%- set value = entity.a[key]|jinja2(vars=xvars) -%}
+      {%- set value = entity.a[key]|jinja2(variables=xvars) -%}
       {%- do nanopub_vars.update({key: value}) -%}
     {%- else -%}
       {%- do nanopub_vars.update({key: ''}) -%}
     {%- endif -%}
   {%- endfor -%}
   {%- for key in kmDefaults -%}
-    {%- set value = dc.km.a.get(key, '')|jinja2(vars=vars, fail_safe=True)|trim -%}
+    {%- set value = dc.km.a.get(key, '')|jinja2(variables=vars, fail_safe=True)|trim -%}
     {%- if value -%}
       {%- do nanopub_vars.update({key: value}) -%}
     {%- endif -%}
   {%- endfor %}
   {%- set statements = nanopub_vars['nanopub.statements']|join('\n') -%}
   {%- do nanopub_vars.update({'nanopub.statements': statements}) -%}
-  {%- set uri = nanopub_vars['nanopub.uri']|jinja2(vars=xvars) -%}
+  {%- set uri = nanopub_vars['nanopub.uri']|jinja2(variables=xvars) -%}
   {%- if uri == '' -%}
-    {%- set uri = nanopub_vars['nanopub.default.uri']|jinja2(vars=xvars) -%}
+    {%- set uri = nanopub_vars['nanopub.default.uri']|jinja2(variables=xvars) -%}
   {%- endif -%}
   {%- do nanopub_vars.update({'nanopub.uri': uri}) -%}
 {%- endmacro -%}
 
 {%- macro updateStatements(entity, nanopub_vars, xvars) -%}
   {%- if 'nanopub.statements.add' in entity.a.keys() -%}
-    {%- set statements = entity.a['nanopub.statements.add']|jinja2(vars=xvars) -%}
+    {%- set statements = entity.a['nanopub.statements.add']|jinja2(variables=xvars) -%}
     {%- do nanopub_vars['nanopub.statements'].append(statements) -%}
   {%- endif -%}
 {%- endmacro -%}
@@ -127,7 +127,7 @@
   {{- setVarsFrom(km, vars) -}}
   {#- nanopub defaults -#}
   {%- for key in kmDefaults -%}
-    {%- set value = km.a.get(key, '')|jinja2(vars=vars, fail_safe=True) -%}
+    {%- set value = km.a.get(key, '')|jinja2(variables=vars, fail_safe=True) -%}
     {%- do nanopub_defaults.update({key: value}) -%}
   {%- endfor -%}
   {#- check nanopub -#}
