@@ -1,9 +1,12 @@
 {%- import "src/html/nanopubs.html.j2" as nanopubsHtml with context -%}
 {%- import "src/trig/nanopubs.trig.j2" as nanopubsTrig with context -%}
 
-{%- macro basicNanopub(vars) -%}
+{%- macro basicNanopub(vars, nanopub_class, add_to_index) -%}
+{%- if add_to_index %}
+    {%- do nanopub_uris.append(vars['nanopub.uri']) -%}
+{%- endif -%}
 {%- if format == "html" -%}
-{{ nanopubsHtml.basicNanopub(vars) }}
+{{ nanopubsHtml.basicNanopub(vars, nanopub_class) }}
 {%- else -%}
 {{ nanopubsTrig.basicNanopub(vars) }}
 {%- endif -%}

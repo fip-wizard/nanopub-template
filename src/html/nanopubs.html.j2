@@ -1,7 +1,6 @@
-{%- macro basicNanopub(vars) -%}
-<div class="nanopub">
+{%- macro basicNanopub(vars, nanopub_class) -%}
+<div class="nanopub {{ nanopub_class }}">
 <pre class="nanopub-prefixes">
-{%- do nanopub_uris.append(vars['nanopub.uri']) -%}
 {%- if vars['nanopub.default.before'] %}
 {{ vars['nanopub.default.before']|escape }}
 {% endif -%}

@@ -18,6 +18,7 @@
 ] -%}
 
 {%- set nanopub_defaults = {'nanopub.statements': []} -%}
+{%- set nanopub_add_visited = [] -%}
 
 {%- macro setVarsFrom(entity, xvars) -%}
   {%- for key in entity.a.keys() if key.startswith('nanopub.var.set.') and key|length > 16 -%}
@@ -72,6 +73,42 @@
   {%- if 'nanopub.statements.add' in entity.a.keys() -%}
     {%- set statements = entity.a['nanopub.statements.add']|jinja2(variables=xvars) -%}
     {%- do nanopub_vars['nanopub.statements'].append(statements) -%}
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro createAdditionalNanopub(entity, xvars, path) -%}
+  {%- if 'nanopub.add' in entity.a.keys() and path not in nanopub_add_visited -%}
+      {%- do nanopub_add_visited.append(path) -%}
+      {%- set nanopubs_to_add = entity.a['nanopub.add'].split('\n') -%}
+      {%- set nanopub_vars = nanopub_defaults.copy() -%}
+      {{- initNanopubVars(entity, nanopub_vars) -}}
+      {{- renderNanopubVars(entity, nanopub_vars, vars) -}}
+      {%- do xvars.update({'path': path.split('.')}) -%}
+      {%- for np_add in nanopubs_to_add -%}
+          {%- set np_prefix = 'nanopub.add.' ~ np_add -%}
+          {%- if np_prefix ~ '.uri' in entity.a.keys() %}
+              {%- do nanopub_vars.update({'nanopub.uri': entity.a[np_prefix ~ '.uri']|jinja2(variables=xvars)}) %}
+          {%- endif %}
+          {%- if np_prefix ~ '.prefixes' in entity.a.keys() %}
+              {%- do nanopub_vars.update({'nanopub.prefixes': entity.a[np_prefix ~ '.prefixes']|jinja2(variables=xvars)}) %}
+          {%- endif %}
+          {%- if np_prefix ~ '.statements' in entity.a.keys() %}
+              {%- do nanopub_vars.update({'nanopub.statements': entity.a[np_prefix ~ '.statements']|jinja2(variables=xvars)}) %}
+          {%- endif %}
+          {%- if np_prefix ~ '.pubinfo' in entity.a.keys() %}
+              {%- do nanopub_vars.update({'nanopub.pubinfo': entity.a[np_prefix ~ '.pubinfo']|jinja2(variables=xvars)}) %}
+          {%- endif %}
+          {%- if np_prefix ~ '.provenance' in entity.a.keys() %}
+              {%- do nanopub_vars.update({'nanopub.provenance': entity.a[np_prefix ~ '.provenance']|jinja2(variables=xvars)}) %}
+          {%- endif %}
+          {%- if np_prefix ~ '.before' in entity.a.keys() %}
+              {%- do nanopub_vars.update({'nanopub.before': entity.a[np_prefix ~ '.before']|jinja2(variables=xvars)}) %}
+          {%- endif %}
+          {%- if np_prefix ~ '.after' in entity.a.keys() %}
+              {%- do nanopub_vars.update({'nanopub.after': entity.a[np_prefix ~ '.after']|jinja2(variables=xvars)}) %}
+          {%- endif %}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-additional", false) }}
+      {%- endfor -%}
   {%- endif -%}
 {%- endmacro -%}
 
@@ -141,7 +178,7 @@
     {%- do vars.update({'entity': km}) -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(km, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {% else -%}
     {#- traverse chapters (out) -#}
     {%- for chapter in km.chapters -%}
@@ -169,7 +206,7 @@
     {%- do vars.update({'entity': chapter}) -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(chapter, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {% else -%}
     {#- traverse chapters (out) -#}
     {%- for question in chapter.questions -%}
@@ -231,7 +268,7 @@
     {{- initNanopubVars(question, nanopub_vars) -}}
     {#- print nanopub -#}
 {{- renderNanopubVars(question, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {%- endif -%}
 {%- endmacro -%}
 
@@ -257,7 +294,7 @@
     {{- initNanopubVars(question, nanopub_vars) -}}
     {#- print nanopub -#}
 {{- renderNanopubVars(question, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {%- endif -%}
 {%- endmacro -%}
 
@@ -292,7 +329,7 @@
     {%- endif -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(question, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {% else -%}
     {#- traverse choices (out) -#}
     {%- if reply -%}
@@ -330,7 +367,7 @@
     {%- endif -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(question, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {% else -%}
     {#- traverse answer (out) -#}
     {%- if reply -%}
@@ -376,7 +413,6 @@
     {%- endfor -%}
     {%- do vars.__setitem__('entity', question) -%}
   {%- endif -%}
-
   {#- check nanopub -#}
   {%- if creates_nanopub -%}
     {%- set nanopub_vars = nanopub_defaults.copy() -%}
@@ -401,7 +437,7 @@
     {%- endif -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(question, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {% elif creates_item_nanopubs %}
     {%- if reply and follow_reply_vars is none -%}
       {%- for item_id in reply.items -%}
@@ -415,7 +451,7 @@
         {%- do item_np_vars.update(reply_vars) %}
         {%- do item_np_vars.__setitem__('item_id', item_id) %}
 {{- renderNanopubVars(question, nanopub_vars, item_np_vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
       {%- endfor -%}
       {%- do vars.__setitem__('entity', question) -%}
     {%- elif reply -%}
@@ -430,7 +466,7 @@
         {%- do item_np_vars.update(follow_reply_vars[item_id]) %}
         {%- do item_np_vars.__setitem__('item_id', item_id) %}
 {{- renderNanopubVars(question, nanopub_vars, item_np_vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
       {%- endfor -%}
       {%- do vars.__setitem__('entity', question) -%}
     {%- endif -%}
@@ -474,6 +510,8 @@
     {{ traverseInMultiChoiceQuestion(question, path, reply_vars, nanopub_vars) }}
   {%- endif -%}
   {{- updateStatements(question, nanopub_vars, reply_vars) -}}
+    {#- additional nanopubs -#}
+{{ createAdditionalNanopub(question, reply_vars, path) }}
 {%- endmacro -%}
 
 {%- macro traverseInValueQuestion(question, path, reply_vars, nanopub_vars) -%}
@@ -607,7 +645,7 @@
     {%- do vars.__setitem__('entity', answer) -%}
     {#- print nanopub -#}
 {{- renderNanopubVars(answer, nanopub_vars, vars) -}}
-{{ nanopubs.basicNanopub(nanopub_vars) }}
+{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-normal", true) }}
   {% else -%}
     {#- traverse followups (out) -#}
     {%- for followup in answer.followups -%}

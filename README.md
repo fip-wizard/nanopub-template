@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.14.0
+
+- Allow extra nanopubs per item
+
 ### 1.13.1
 
 - Fix use of Jinja-in-Jinja
