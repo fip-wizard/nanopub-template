@@ -107,7 +107,8 @@
           {%- if np_prefix ~ '.after' in entity.a.keys() %}
               {%- do nanopub_vars.update({'nanopub.after': entity.a[np_prefix ~ '.after']|jinja2(variables=xvars)}) %}
           {%- endif %}
-{{ nanopubs.basicNanopub(nanopub_vars, "nanopub-additional", false) }}
+          {%- set np = nanopubs.basicNanopub(nanopub_vars, "nanopub-additional", false) -%}
+          {%- do additional_nanopubs.append(np) -%}
       {%- endfor -%}
   {%- endif -%}
 {%- endmacro -%}

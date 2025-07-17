@@ -22,6 +22,7 @@
 } -%}
 {%- set vars = vars_defaults.copy() -%}
 {%- set nanopub_uris = [] -%}
+{%- set additional_nanopubs = [] -%}
 {%- set nanopub_index = dc.km.a.get('nanopub.index', '').lower() == 'true' -%}
 {#- Imports -#}
 {%- import "src/nanopubs.j2" as nanopubs with context -%}
@@ -69,3 +70,7 @@
   {%- endfor %}
 {{ nanopubs.extraNanopub(vars=extra_vars) }}
 {%- endif -%}
+{#- Additional nanopublicationss -#}
+{%- for np in additional_nanopubs %}
+{{ np }}
+{% endfor -%}

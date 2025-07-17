@@ -4,9 +4,13 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.14.1
+
+- Move all additional nanopubs to the end of final document
+
 ### 1.14.0
 
-- Allow extra nanopubs per item
+- Allow additional nanopubs per item
 
 ### 1.13.1
 
