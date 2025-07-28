@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.14.2
+
+- Fix "undefined followup" error
+
 ### 1.14.1
 
 - Move all additional nanopubs to the end of final document

@@ -476,7 +476,9 @@
     {%- if reply and follow_reply_vars is none -%}
       {%- for item_id in reply.items -%}
         {%- set item_path = path ~ '.' ~ item_id -%}
-        {{- traverseOutQuestion(followup, item_path, reply_vars) -}}
+        {%- for followup in question.followups -%}
+          {{- traverseOutQuestion(followup, item_path, reply_vars) -}}
+        {%- endfor -%}
       {%- endfor -%}
       {%- do vars.__setitem__('entity', question) -%}
     {%- elif reply -%}
@@ -662,8 +664,8 @@
   {#- variables -#}
   {{- setVarsFrom(answer, reply_vars) -}}
   {#- traverse questions -#}
-  {%- for question in answer.followups -%}
-    {{- traverseInQuestion(question, path, reply_vars, nanopub_vars) -}}
+  {%- for followup in answer.followups -%}
+    {{- traverseInQuestion(followup, path, reply_vars, nanopub_vars) -}}
   {%- endfor -%}
   {{- updateStatements(answer, nanopub_vars, vars) -}}
   {%- do vars.__setitem__('entity', answer) -%}
