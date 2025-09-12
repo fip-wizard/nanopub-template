@@ -282,8 +282,9 @@
       {%- set reply = question.replies.get(path) -%}
       {%- do reply_vars.update({reply_varname: {
         'value': reply.value,
-        'id': reply.id,
-        'url': reply.url,
+        'id': reply.id|default(None),
+        'url': reply.url|default(None),
+        'raw': reply.raw|default(None),
       }}) -%}
     {%- else -%}
       {%- do reply_vars.update({reply_varname: None}) -%}
@@ -538,8 +539,9 @@
       {%- set reply = question.replies.get(path) -%}
       {%- do reply_vars.__setitem__(reply_varname, {
         'value': reply.value,
-        'id': reply.id,
-        'url': reply.url,
+        'id': reply.id|default(None),
+        'url': reply.url|default(None),
+        'raw': reply.raw|default(None),
       }) -%}
     {%- else -%}
       {%- do reply_vars.update({reply_varname: None}) -%}

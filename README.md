@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.15.0
+
+- Update to metamodel v17.0
+
 ### 1.14.2
 
 - Fix "undefined followup" error
