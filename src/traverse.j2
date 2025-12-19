@@ -130,7 +130,7 @@
   {%- endif -%}
 {%- endmacro -%}
 {%- macro validateIntegrationReply(question, reply) -%}
-  {%- if 'nanopub.validate.required' in question.a.keys() -%}
+  {%- if question.is_required and 'nanopub.validate.required' in question.a.keys() -%}
     {%- if reply.is_plain -%}
       {{- question.a['nanopub.validate.integration']|error('Invalid value') -}}
     {%- endif -%}
@@ -138,7 +138,7 @@
 {%- endmacro -%}
 {%- macro validateQuestion(question, path) -%}
   {%- set reply = question.replies.get(path) -%}
-  {%- if 'nanopub.validate.required' in question.a.keys() -%}
+  {%- if question.is_required and 'nanopub.validate.required' in question.a.keys() -%}
     {%- if reply is none -%}
       {{- question.a['nanopub.validate.required']|error('Missing reply') -}}
     {%- endif -%}

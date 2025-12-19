@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.16.0
+
+- Validate replies only based on phase
+
 ### 1.15.0
 
 - Update to metamodel v17.0
