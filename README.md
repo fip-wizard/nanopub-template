@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.17.0
+
+- Add URI separator for older submissions to resolve # vs / issue 
+
 ### 1.16.0
 
 - Validate replies only based on phase
