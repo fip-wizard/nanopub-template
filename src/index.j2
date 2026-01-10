@@ -50,7 +50,7 @@
 {{ nanopubs.indexNanopub(nanopub_uris, vars=index_vars) }}
 {%- endif -%}
 {#- Nanopublication Extra -#}
-{%- set nanopub_extra = dc.km.a.get('nanopub.index', '').lower() == 'true' -%}
+{%- set nanopub_extra = dc.km.a.get('nanopub.extra', '').lower() == 'true' -%}
 {%- set extra_uri = dc.config.client_url ~ "/" ~ dc.qtn.uuid ~ "/" ~ dc.doc.uuid %}
 {%- if nanopub_extra -%}
   {%- set extra_vars = {

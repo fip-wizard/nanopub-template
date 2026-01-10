@@ -53,7 +53,7 @@
 {%- if vars['nanopub.pubinfo'] %}
 {{ vars['nanopub.pubinfo']|indent(2, True) }}
 {%- endif %}
-{%- if not nanopub_index and submissions.nanopubs|length > 0 %}
+{%- if not nanopub_index and not nanopub_extra and submissions.nanopubs|length > 0 %}
 
   : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
 {%- endif %}
@@ -97,7 +97,7 @@
 
 :pubinfo {
 {{ vars['nanopub.index.pubinfo']|indent(2, True) }}
-{%- if submissions.nanopubs|length > 0 %}
+{%- if not nanopub_extra and submissions.nanopubs|length > 0 %}
 
   : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
 {%- endif %}

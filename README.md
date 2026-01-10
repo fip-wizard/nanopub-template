@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.17.1
+
+- Fix `npx:supersedes` in case of both extra and index nanopubs
+
 ### 1.17.0
 
 - Add URI separator for older submissions to resolve # vs / issue 
