@@ -1,18 +1,18 @@
 {%- macro basicNanopub(vars) -%}
 {%- if vars['nanopub.default.before'] %}
-{{ vars['nanopub.default.before'] }}
+{{ vars['nanopub.default.before']|safe }}
 {% endif -%}
 {%- if vars['nanopub.before'] %}
-{{ vars['nanopub.before'] }}
+{{ vars['nanopub.before']|safe }}
 {% endif -%}
 @prefix : <{{ vars['nanopub.uri'] }}> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 {%- if vars['nanopub.default.prefixes'] %}
-{{ vars['nanopub.default.prefixes'] }}
+{{ vars['nanopub.default.prefixes']|safe }}
 {% endif -%}
 {%- if vars['nanopub.prefixes'] %}
-{{ vars['nanopub.prefixes'] }}
+{{ vars['nanopub.prefixes']|safe }}
 {%- endif %}
 
 :Head {
@@ -24,53 +24,53 @@
 
 :assertion {
 {%- if vars['nanopub.default.statements'] %}
-{{ vars['nanopub.default.statements']|indent(2, True) }}
+{{ vars['nanopub.default.statements']|safe|indent(2, True) }}
 {%- endif %}
 {%- if vars['nanopub.statements.start'] %}
-{{ vars['nanopub.statements.start']|indent(2, True) }}
+{{ vars['nanopub.statements.start']|safe|indent(2, True) }}
 {%- endif %}
 {%- if vars['nanopub.statements'] %}
-{{ vars['nanopub.statements']|indent(2, True) }}
+{{ vars['nanopub.statements']|safe|indent(2, True) }}
 {%- endif %}
 {%- if vars['nanopub.statements.end'] %}
-{{ vars['nanopub.statements.end']|indent(2, True) }}
+{{ vars['nanopub.statements.end']|safe|indent(2, True) }}
 {%- endif %}
 }
 
 :provenance {
 {%- if vars['nanopub.default.provenance'] %}
-{{ vars['nanopub.default.provenance']|indent(2, True) }}
+{{ vars['nanopub.default.provenance']|safe|indent(2, True) }}
 {%- endif %}
 {%- if vars['nanopub.provenance'] %}
-{{ vars['nanopub.provenance']|indent(2, True) }}
+{{ vars['nanopub.provenance']|safe|indent(2, True) }}
 {%- endif %}
 }
 
 :pubinfo {
 {%- if vars['nanopub.default.pubinfo'] %}
-{{ vars['nanopub.default.pubinfo']|indent(2, True) }}
+{{ vars['nanopub.default.pubinfo']|safe|indent(2, True) }}
 {%- endif %}
 {%- if vars['nanopub.pubinfo'] %}
-{{ vars['nanopub.pubinfo']|indent(2, True) }}
+{{ vars['nanopub.pubinfo']|safe|indent(2, True) }}
 {%- endif %}
 {%- if not nanopub_index and not nanopub_extra and submissions.nanopubs|length > 0 %}
 
   : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
 {%- endif %}
 }
-{{ vars['nanopub.after'] }}
-{{ vars['nanopub.default.after'] }}
+{{ vars['nanopub.after']|safe }}
+{{ vars['nanopub.default.after']|safe }}
 {%- endmacro -%}
 
 {%- macro indexNanopub(uris, vars) -%}
 {%- if vars['nanopub.index.before'] -%}
-{{ vars['nanopub.index.before'] }}
+{{ vars['nanopub.index.before']|safe }}
 {% endif -%}
 @prefix : <{{ vars['nanopub.index.uri'] }}> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 {% if vars['nanopub.index.prefixes'] -%}
-{{ vars['nanopub.index.prefixes'] }}
+{{ vars['nanopub.index.prefixes']|safe }}
 {%- endif %}
 
 :Head {
@@ -88,15 +88,15 @@
 {%- endfor %}
 {%- endif -%}
 
-{{ vars['nanopub.index.statements']|indent(2, True) }}
+{{ vars['nanopub.index.statements']|safe|indent(2, True) }}
 }
 
 :provenance {
-{{ vars['nanopub.index.provenance']|indent(2, True) }}
+{{ vars['nanopub.index.provenance']|safe|indent(2, True) }}
 }
 
 :pubinfo {
-{{ vars['nanopub.index.pubinfo']|indent(2, True) }}
+{{ vars['nanopub.index.pubinfo']|safe|indent(2, True) }}
 {%- if not nanopub_extra and submissions.nanopubs|length > 0 %}
 
   : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
@@ -107,13 +107,13 @@
 
 {%- macro extraNanopub(vars) -%}
 {%- if vars['nanopub.extra.before'] -%}
-{{ vars['nanopub.extraextra.before'] }}
+{{ vars['nanopub.extra.before']|safe }}
 {% endif -%}
 @prefix : <{{ vars['nanopub.extra.uri'] }}> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 {% if vars['nanopub.extra.prefixes'] -%}
-{{ vars['nanopub.extra.prefixes'] }}
+{{ vars['nanopub.extra.prefixes']|safe }}
 {%- endif %}
 
 :Head {
@@ -124,19 +124,19 @@
 }
 
 :assertion {
-{{ vars['nanopub.extra.statements']|indent(2, True) }}
+{{ vars['nanopub.extra.statements']|safe|indent(2, True) }}
 }
 
 :provenance {
-{{ vars['nanopub.extra.provenance']|indent(2, True) }}
+{{ vars['nanopub.extra.provenance']|safe|indent(2, True) }}
 }
 
 :pubinfo {
-{{ vars['nanopub.extra.pubinfo']|indent(2, True) }}
+{{ vars['nanopub.extra.pubinfo']|safe|indent(2, True) }}
 {%- if submissions.nanopubs|length > 0 %}
 
   : npx:supersedes <{{ submissions.nanopubs[0].uri }}> ;
 {%- endif %}
 }
-{{ vars['nanopub.extra.after'] }}
+{{ vars['nanopub.extra.after']|safe }}
 {%- endmacro -%}

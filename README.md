@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.18.0
+
+- Update with `safe` filter to avoid issues with security patch in v4.28.4
+
 ### 1.17.1
 
 - Fix `npx:supersedes` in case of both extra and index nanopubs
