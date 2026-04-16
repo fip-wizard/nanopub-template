@@ -6,10 +6,10 @@
     'client_url': dc.config.client_url,
   },
   'qtn': {
-    'uuid': dc.qtn.uuid,
-    'name': dc.qtn.name,
-    'description': dc.qtn.description,
-    'tags': dc.qtn.project_tags,
+    'uuid': dc.project.uuid,
+    'name': dc.project.name,
+    'description': dc.project.description,
+    'tags': dc.project.project_tags,
   },
   'doc': {
     'uuid': dc.doc.uuid,
@@ -30,7 +30,7 @@
 {#- Iterate for nanopubs -#}
 {{- traverse.traverseKm(dc.km) -}}
 {#- Nanopublication Index -#}
-{%- set index_uri = dc.config.client_url ~ "/" ~ dc.qtn.uuid ~ "/" ~ dc.doc.uuid ~ "/index" %}
+{%- set index_uri = dc.config.client_url ~ "/" ~ dc.project.uuid ~ "/" ~ dc.doc.uuid ~ "/index" %}
 {%- if nanopub_index -%}
   {%- set index_vars = {
     'nanopub.index.before': '',
@@ -51,7 +51,7 @@
 {%- endif -%}
 {#- Nanopublication Extra -#}
 {%- set nanopub_extra = dc.km.a.get('nanopub.extra', '').lower() == 'true' -%}
-{%- set extra_uri = dc.config.client_url ~ "/" ~ dc.qtn.uuid ~ "/" ~ dc.doc.uuid %}
+{%- set extra_uri = dc.config.client_url ~ "/" ~ dc.project.uuid ~ "/" ~ dc.doc.uuid %}
 {%- if nanopub_extra -%}
   {%- set extra_vars = {
     'nanopub.extra.before': '',

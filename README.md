@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.19.0
+
+- Update to metamodel v18.0 (DSW v4.29.0)
+
 ### 1.18.0
 
 - Update with `safe` filter to avoid issues with security patch in v4.28.4
