@@ -4,6 +4,10 @@ Creating nanopublications for submissions
 
 ## Changelog
 
+### 1.20.0
+
+- Use `project` instead of `qtn` for consistency
+
 ### 1.19.0
 
 - Update to metamodel v18.0 (DSW v4.29.0)
